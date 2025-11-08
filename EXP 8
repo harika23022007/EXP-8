@@ -1,0 +1,228 @@
+EXPP 8a
+
+package invalidatmpin;
+import java.util.*;
+
+//Thread 1 — Prints words with delay
+class WordThread implements Runnable {
+ String text;
+
+ WordThread(String t) {
+     text = t;
+ }
+
+ public void run() {
+     System.out.println("\nWord Thread:");
+     String[] words = text.split("\\s+"); // Split sentence by spaces
+     for (String w : words) {
+         System.out.print(w + " ");
+         try {
+             Thread.sleep(2000); // 2-second delay between words
+         } catch (InterruptedException e) {
+             e.printStackTrace();
+         }
+     }
+     System.out.println("\nEnd of Word Thread.");
+ }
+}
+
+//Thread 2 — Prints vowels with delay
+class VowelThread implements Runnable {
+ String text;
+
+ VowelThread(String t) {
+     text = t;
+ }
+
+ public void run() {
+     System.out.println("\nVowel Thread:");
+     for (char c : text.toCharArray()) {
+         if ("AEIOUaeiou".indexOf(c) != -1) {
+             System.out.print(c + " ");
+             try {
+                 Thread.sleep(2000); // 2-second delay between vowels
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+     System.out.println("\nEnd of Vowel Thread.");
+ }
+}
+
+//Main Class
+public class WordVowel {
+ public static void main(String[] args) {
+     Scanner sc = new Scanner(System.in);
+     System.out.println("Enter a paragraph:");
+     String text = sc.nextLine();
+
+     Thread t1 = new Thread(new WordThread(text));  // Thread for words
+     Thread t2 = new Thread(new VowelThread(text)); // Thread for vowels
+
+     t1.start(); // Start both threads
+     t2.start();
+
+     sc.close();
+ }
+}
+
+EXP 8b
+
+package invalidatmpin;
+import java.util.*;
+
+//Thread to print even numbers
+class EvenThread extends Thread {
+ int[] arr;
+
+ EvenThread(int[] a) {
+     arr = a;
+ }
+
+ public void run() {
+     System.out.println("\nEven Thread:");
+     for (int n : arr) {
+         if (n % 2 == 0) {
+             System.out.print(n + " ");
+             try {
+                 Thread.sleep(2000); // 2-second delay
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+     System.out.println("\nEnd of Even Thread.");
+ }
+}
+
+//Thread to print odd numbers
+class OddThread extends Thread {
+ int[] arr;
+
+ OddThread(int[] a) {
+     arr = a;
+ }
+
+ public void run() {
+     System.out.println("\nOdd Thread:");
+     for (int n : arr) {
+         if (n % 2 != 0) {
+             System.out.print(n + " ");
+             try {
+                 Thread.sleep(2000); // 2-second delay
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+     System.out.println("\nEnd of Odd Thread.");
+ }
+}
+
+//Main Class
+public class EvenOdd {
+ public static void main(String[] args) throws InterruptedException{
+     Scanner sc = new Scanner(System.in);
+     int[] numbers = new int[10];
+
+     System.out.println("Enter 10 numbers:");
+     for (int i = 0; i < 10; i++) {
+         numbers[i] = sc.nextInt();
+     }
+
+     // Create thread objects
+     EvenThread even = new EvenThread(numbers);
+     OddThread odd = new OddThread(numbers);
+
+     // Run threads sequentially
+     even.start();
+     even.join();  // wait for even thread to finish
+     
+     // Start both threads
+     even.start();
+     odd.start();
+
+     sc.close();
+ }
+}
+
+EXP 8c
+
+package invalidatmpin;
+import java.util.*;
+
+//Thread to print even numbers
+class EvenThread extends Thread {
+ int[] arr;
+
+ EvenThread(int[] a) {
+     arr = a;
+ }
+
+ public void run() {
+     System.out.println("\nEven Thread:");
+     for (int n : arr) {
+         if (n % 2 == 0) {
+             System.out.print(n + " ");
+             try {
+                 Thread.sleep(2000); // 2-second delay
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+     System.out.println("\nEnd of Even Thread.");
+ }
+}
+
+//Thread to print odd numbers
+class OddThread extends Thread {
+ int[] arr;
+
+ OddThread(int[] a) {
+     arr = a;
+ }
+
+ public void run() {
+     System.out.println("\nOdd Thread:");
+     for (int n : arr) {
+         if (n % 2 != 0) {
+             System.out.print(n + " ");
+             try {
+                 Thread.sleep(2000); // 2-second delay
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+     System.out.println("\nEnd of Odd Thread.");
+ }
+}
+
+//Main Class
+public class EvenOdd {
+ public static void main(String[] args) throws InterruptedException{
+     Scanner sc = new Scanner(System.in);
+     int[] numbers = new int[10];
+
+     System.out.println("Enter 10 numbers:");
+     for (int i = 0; i < 10; i++) {
+         numbers[i] = sc.nextInt();
+     }
+
+     // Create thread objects
+     EvenThread even = new EvenThread(numbers);
+     OddThread odd = new OddThread(numbers);
+
+     // Run threads sequentially
+     even.start();
+     even.join();  // wait for even thread to finish
+     
+     // Start both threads
+     even.start();
+     odd.start();
+
+     sc.close();
+ }
+}
